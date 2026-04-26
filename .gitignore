@@ -13,3 +13,8 @@ NMF/
 
 # --- IMDB 暂不入库；需要时在本地放入 EAHTM/EAHTM/data/IMDB/ ---
 EAHTM/EAHTM/data/IMDB/
+
+# --- 远程合并带入：本地产物 ---
+__pycache__/
+*.pyc
+EAHTM/output/
