@@ -1,0 +1,14 @@
+# --- 论文相关：EAHTM 数据里仅 ACL train 全文超 GitHub 100MB，需本地自备 ---
+EAHTM/EAHTM/data/ACL/train_texts.txt
+
+# --- TopMost：只保留 Python 包与入口脚本；数据与 EAHTM 重复，output 为旧实验痕迹 ---
+TopMost-main/data/
+TopMost-main/output/
+TopMost-main/docs/
+TopMost-main/tutorials/
+
+# --- 与本仓库 sklearn NMF 基线（EAHTM/experiments/nmf_baseline.py）无关 ---
+NMF/
+
+# --- IMDB 暂不入库；需要时在本地放入 EAHTM/EAHTM/data/IMDB/ ---
+EAHTM/EAHTM/data/IMDB/

@@ -1,0 +1,11 @@
+# Optional deps for supplement experiments (install on top of EAHTM core env).
+# NMF / collapse / Sinkhorn sweep: only sklearn + scipy + gensim (usually already present).
+gensim>=4.0
+scikit-learn>=1.0
+
+# fastText crawl vectors -> word_embeddings.npz
+# pip install -r requirements-experiments.txt
+
+# CTM / sentence-BERT baselines (train in separate env if versions clash)
+# contextualized-topic-models>=2.4.0
+# sentence-transformers>=2.2.0
