@@ -1,5 +1,6 @@
-# --- 论文相关：EAHTM 数据里仅 ACL train 全文超 GitHub 100MB，需本地自备 ---
+# --- 论文相关：EAHTM 数据里 train 全文超 GitHub 100MB，需本地自备 ---
 EAHTM/EAHTM/data/ACL/train_texts.txt
+EAHTM/EAHTM/data/NeurIPS/train_texts.txt
 
 # --- TopMost：只保留 Python 包与入口脚本；数据与 EAHTM 重复，output 为旧实验痕迹 ---
 TopMost-main/data/

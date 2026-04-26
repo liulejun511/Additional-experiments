@@ -4,7 +4,7 @@ NeurIPS 论文语料（EAHTM 用）
 本目录需与 `../20NG/` 相同的一批文件（名称一致即可被 `run_HTM.py -d NeurIPS` 读取）：
 
   train_bow.npz      test_bow.npz
-  train_texts.txt    test_texts.txt
+  train_texts.txt    test_texts.txt   （train_texts 常 >100MB，GitHub 不入库，仅本地自备）
   vocab.txt          word_embeddings.npz
 
 可选（仅当要跑 hierarchical_topic_quality.py 的聚类/分类且脚本要求标签时）：

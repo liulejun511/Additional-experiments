@@ -1,6 +1,6 @@
 ## 本仓库（GitHub）范围说明
 
-纳入版本控制的主要包括：**EAHTM 主实验代码与数据集 20NG / NYT / ACL** 的预处理文件，以及 **NeurIPS** 目录下的 `README.txt`（说明需自备的 bow/文本/词向量文件名与获取方式）；NeurIPS 实际数据请按该说明放入 `EAHTM/EAHTM/data/NeurIPS/`。**IMDB** 暂不纳入 Git，需要时在本地创建 `data/IMDB/`。**补实验脚本**见 `EAHTM/EAHTM/experiments/`。**TopMost** 仅保留 **Python 库与 `run.py` 等**，`data/` 与 `output/` 不入库。ACL 的 `train_texts.txt` 因超过 GitHub 单文件上限，需从原数据渠道自行放入 `EAHTM/EAHTM/data/ACL/`。
+纳入版本控制的主要包括：**EAHTM 主实验代码与数据集 20NG / NYT / ACL** 的预处理文件，以及 **NeurIPS** 目录下的 `README.txt`（说明需自备的 bow/文本/词向量文件名与获取方式）；NeurIPS 实际数据请按该说明放入 `EAHTM/EAHTM/data/NeurIPS/`。**IMDB** 暂不纳入 Git，需要时在本地创建 `data/IMDB/`。**补实验脚本**见 `EAHTM/EAHTM/experiments/`。**TopMost** 仅保留 **Python 库与 `run.py` 等**，`data/` 与 `output/` 不入库。ACL、NeurIPS 的 `train_texts.txt` 因超过 GitHub 单文件上限，不入库；需自行放入 `EAHTM/EAHTM/data/ACL/`、`data/NeurIPS/`。
 
 ## Usage
 
