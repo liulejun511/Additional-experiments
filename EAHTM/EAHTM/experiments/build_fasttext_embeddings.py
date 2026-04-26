@@ -1,8 +1,18 @@
 """
-Build word_embeddings.npz (csr, float32) for a dataset vocab from fastText/GloVe .vec or .bin.
-Use with: python run_HTM.py -d 20NG --word_embeddings_npz ./data/20NG/word_embeddings.fasttext.npz
+Build ``word_embeddings*.npz`` (csr, float32) aligned to ``data/<ds>/vocab.txt`` from a
+word2vec-format file (fastText Common Crawl ``cc.en.300`` .vec or .bin, etc.).
 
-Example (cc.en.300.vec is large; prefer .bin + gensim):
+**Download:** official vectors are linked from https://fasttext.cc/docs/en/crawl-vectors.html
+(e.g. ``cc.en.300.bin.gz``); unpack and pass the **absolute path** to ``--vectors``.
+README placeholders like ``D:\\path\\to\\cc.en.300.vec`` are not valid until you replace them.
+
+**Training with the npz:** ``cc.en.300`` vectors are 300-dimensional. Default ``configs/HTM.yaml``
+uses ``model.embedding_dim: 200``. This script only writes the matrix; if you pass
+``--word_embeddings_npz`` to ``run_HTM.py``, ensure the model embedding size matches the
+file dimension (adjust yaml or use vectors whose dim matches your config).
+
+Example (``.bin`` is smaller than ``.vec``; use ``--binary`` for Facebook binary format)::
+
   python -m experiments.build_fasttext_embeddings -d 20NG --data_dir ./data --vectors cc.en.300.bin --binary
 """
 import argparse

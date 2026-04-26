@@ -1,6 +1,20 @@
 """
 Paper rebuttal experiment launcher (run from EAHTM directory).
 
+Seven subcommands (same names as ``python -m experiments.run_suite <cmd>``):
+
+1. **nmf** — TF-IDF + sklearn NMF; needs ``data/<ds>/train_bow.npz`` etc. only.
+2. **collapse** — needs a finished EAHTM prefix (no ``_T15``): ``*_embeddings.npz``.
+3. **sinkhorn** — runs full ``run_HTM.py`` once per ``--alphas`` value (slow).
+4. **qualitative** — same prefix as collapse; needs ``*_T15`` and ``*_params.npz``.
+5. **ctm_prep** — writes ``output/<ds>/CTM_prep_*``; CombinedTM train is still manual (README §7).
+6. **topmost** — lists candidate scripts under ``--topmost_root``; no GPU train.
+7. **fasttext_prep** — needs a **local** fastText ``.vec`` or ``.bin`` path (not a placeholder URL).
+   Produces ``data/<ds>/word_embeddings.fasttext.npz``. Custom ``--output`` is only on
+   ``python -m experiments.build_fasttext_embeddings``, not forwarded by ``run_suite``.
+
+Examples::
+
   python -m experiments.run_suite --help
   python -m experiments.run_suite nmf --dataset 20NG
   python -m experiments.run_suite collapse --path output/20NG/HTM_K10-50-200_1th
@@ -28,6 +42,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def _run(mod: str, extra: list):
+    """Delegate to ``experiments.<mod>`` as a subprocess so cwd stays EAHTM root."""
     cmd = [sys.executable, '-m', f'experiments.{mod}', *extra]
     print('>>>', ' '.join(cmd))
     subprocess.run(cmd, check=True, cwd=ROOT)

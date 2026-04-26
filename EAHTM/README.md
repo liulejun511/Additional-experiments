@@ -30,7 +30,7 @@ scikit-learn
 tqdm
 ```
 
-版本可按你复现实验时的环境锁定；`requirements.txt` 在 `EAHTM/EAHTM/requirements.txt`。
+版本可按你复现实验时的环境锁定；内层 **`EAHTM/EAHTM/requirements.txt`** 面向 EAHTM 训练与评估；若从仓库根一键安装（含 CTM 等），见根目录 **`requirements.txt`**。
 
 ---
 
@@ -92,9 +92,31 @@ python -m experiments.run_suite --help
 | **Sinkhorn α 扫描** | `python -m experiments.run_suite sinkhorn --dataset 20NG --alphas 5 10 20 40 --log_training_stats` |
 | **层次树 JSON（定性）** | `python -m experiments.run_suite qualitative --path output/20NG/HTM_K10-50-200_1th` |
 | **CTM 侧数据准备** | `python -m experiments.run_suite ctm_prep --dataset 20NG` |
-| **fastText 词向量矩阵** | `python -m experiments.run_suite fasttext_prep --dataset 20NG --vectors <路径> --binary` |
+| **fastText 词向量矩阵** | `python -m experiments.run_suite fasttext_prep --dataset 20NG --vectors <本机绝对路径> --binary`（`.vec` 则去掉 `--binary`） |
+| **TopMost 效率对齐** | `python -m experiments.run_suite topmost --topmost_root <TopMost 克隆目录>` |
 
-**说明**：不需要再单独引入已删除的顶层 **`NMF/`**（HyHTM）目录；NMF 经典基线用 **`experiments/nmf_baseline.py`** 即可。TopMost 内 **`NMF_trainer`** 属于另一套训练管线，需按 TopMost 的数据目录使用。
+### 6.1 七项是否「全跑通」的含义
+
+- **前六项**只依赖：数据集在 `data/<数据集>/`、（`collapse` / `qualitative`）已有一次 **`run_HTM.py`** 写出的 **`output/.../HTM_..._<n>th`** 前缀、`topmost` 依赖本机 TopMost 路径。
+- **第七项 `fasttext_prep`** 额外依赖：你已**从官方下载并解压**的 **`cc.en.300.bin` 或 `.vec`**，且命令里 **`--vectors` 必须是真实路径**（文档里的 `D:\path\to\...` 仅为占位，不存在时会 `FileNotFoundError`）。
+- 因此：其余六项已能跑通时，**补齐本机 fastText 文件并正确传路径**，七个子命令的**代码入口**即可全部执行成功。若再用生成的 npz 做 **EAHTM 训练对比**，需注意 **向量维度与 `configs/HTM.yaml` 中 `model.embedding_dim` 一致**（`cc.en.300` 为 300 维，默认配置常为 200，需二选一调整）。
+
+### 6.2 fastText 预训练向量从哪获取
+
+- 官方说明与下载列表：[fastText — Word vectors for 157 languages (crawl)](https://fasttext.cc/docs/en/crawl-vectors.html)。英语常用 **`cc.en.300.bin.gz`** 或 **`cc.en.300.vec.gz`**，解压后得到 `.bin` 或 `.vec`。
+- **推荐 `.bin`**：体积相对小，`gensim` 加载时加 **`--binary`**（`run_suite fasttext_prep` 同理）。
+- 默认输出：`data/<数据集>/word_embeddings.fasttext.npz`。若需自定义输出路径，请直接调用 **`python -m experiments.build_fasttext_embeddings ... --output <路径>`**（`run_suite fasttext_prep` 当前不转发 `--output`）。
+
+### 6.3 可选：快速冒烟（非正式实验）
+
+内层 **`configs/HTM_smoke.yaml`** 为 **1 个 epoch**、较小 OT 迭代，用于本机或协作者验证「训练 → 写文件 → `sinkhorn_sweep` 子进程」是否通畅；正式论文数值请仍用 **`HTM.yaml`** 与 README §4 的完整训练命令。
+
+```bash
+python run_HTM.py -d 20NG --data_dir ./data -m HTM_smoke -k 2-4-8 --test_index 1 --log_training_stats
+python -m experiments.sinkhorn_sweep --dataset 20NG --data_dir ./data -k 2-4-8 --test_index 2 --alphas 20 --model_config HTM_smoke --log_training_stats
+```
+
+**说明**：不需要再单独引入已删除的顶层 **`NMF/`**（HyHTM）目录；NMF 经典基线用 **`experiments/nmf_baseline.py`**（经 `run_suite nmf`）即可。TopMost 内 **`NMF_trainer`** 属于另一套训练管线，需按 TopMost 的数据目录使用。
 
 ---
 
