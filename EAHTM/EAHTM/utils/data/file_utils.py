@@ -9,7 +9,7 @@ def make_dir(path):
 
 
 def read_yaml(path):
-    with open(path) as file:
+    with open(path, encoding='utf-8') as file:
         config = yaml.safe_load(file)
     return config
 

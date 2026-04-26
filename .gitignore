@@ -18,3 +18,5 @@ EAHTM/EAHTM/data/IMDB/
 __pycache__/
 *.pyc
 EAHTM/output/
+EAHTM/EAHTM/output/
+.venv/

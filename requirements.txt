@@ -1,0 +1,56 @@
+# =============================================================================
+# Additional-experiments 一键环境（EAHTM + 补实验 + CTM）
+# 新建 venv（Windows 推荐 Python 3.11，需已安装 3.11 或执行 py install 3.11）：
+#   cd D:\code\experiments
+#   py -3.11 -m venv .venv
+# 安装：用 .venv\Scripts\python.exe（避免 ExecutionPolicy 拦 Activate.ps1）
+#   .\.venv\Scripts\python.exe -m pip install -U pip setuptools wheel
+#   .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+#
+# Python：建议 3.10–3.12（Windows 上尤其推荐 3.11/3.12，多数包有 wheel）。
+# ----- Gensim（你当前若用 Python 3.14 + Windows）-----
+# PyPI 上 gensim 4.x 暂无 cp314-win_amd64 预编译轮，pip 会本地编译 C 扩展，需：
+#   Microsoft C++ Build Tools（含「使用 C++ 的桌面开发」或 MSVC v143 工具集）
+#   https://visualstudio.microsoft.com/zh-hans/visual-cpp-build-tools/
+# 装好后在同一 venv 里重新执行：pip install -r requirements.txt
+# 若不想装编译环境：请用 Python 3.11 或 3.12 新建 .venv 再装本文件（gensim 会直接下 wheel）。
+# 若使用 3.14 且 torch 装不上，见文末「Torch」说明。
+# =============================================================================
+
+# ----- EAHTM 训练 / 评估 -----
+numpy>=1.22,<3
+scipy>=1.8
+pyyaml>=6.0
+gensim>=4.3
+tqdm>=4.62
+scikit-learn>=1.0
+pandas>=1.3
+
+# ----- PyTorch（EAHTM、CTM 都需要；版本随 CUDA 自选）-----
+# CPU 示例（装不上时再换下面「Torch」一节）：
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch>=2.0,<3
+
+# ----- CTM / sentence-BERT -----
+sentence-transformers>=2.2.0
+transformers>=4.30.0
+accelerate>=0.20.0
+
+# ----- CTM 官方库（可编辑安装，路径相对本文件所在仓库根目录）-----
+-e ./external_models/contextualized-topic-models
+
+# ----- 常用但非必须（CTM 上游 requirements 里也有，写上避免缺）-----
+matplotlib>=3.6
+nltk>=3.8
+wordcloud>=1.9
+
+# =============================================================================
+# Gensim 已从源码编过、其余包未装全：可只补装剩余依赖（一般无需重下 torch）：
+#   pip install -r requirements.txt
+# =============================================================================
+# Torch 安装不上时（尤其 Python 3.14 预编译轮未就绪）
+# 1) 到 https://pytorch.org 复制与你 CUDA 版本匹配的 pip 命令单独安装 torch，再：
+#    pip install -r requirements.txt --no-deps
+#    然后手动 pip install 本文件中除 torch 以外的行（或注释掉 torch 行后重试）。
+# 2) 或改用 Python 3.11 + 默认 pip install torch。
+# =============================================================================
