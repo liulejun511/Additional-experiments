@@ -13,7 +13,7 @@
 | **`EAHTM/EAHTM/experiments/`** | 补实验：NMF 基线、Sinkhorn 扫描、collapse 诊断、CTM 数据准备、fastText 词向量构建、`run_suite` 统一入口 |
 | **`EAHTM/EAHTM/output/`** | 训练产物（默认不提交 Git；本地生成） |
 
-仓库根下另有 **`TopMost-main/`**（仅库代码，用于 ProdLDA / SawETM 等基线）、**`external_models/`**（合并远程时带入的 CTM 相关代码，按需使用）。
+仓库根下另有 **`TopMost-main/`**（仅库代码，用于 ProdLDA / SawETM 等基线）、**`external_models/contextualized-topic-models/`**（**CTM / CombinedTM** 官方实现，与 [ACL 2021 短文](https://aclanthology.org/2021.acl-short.96/) 对应；说明见 **`external_models/README.md`**）。
 
 ---
 
@@ -98,7 +98,29 @@ python -m experiments.run_suite --help
 
 ---
 
-## 7. 与仓库根目录的关系
+## 7. CTM baseline（上下文向量 + 主题模型）
+
+回应审稿人对 **BERT / contextual embedding** 类基线的质疑：使用 **CombinedTM** 等模型，与论文 **[Bianchi et al., ACL-IJCNLP 2021](https://aclanthology.org/2021.acl-short.96/)** 一致；代码来源 **[MilaNLProc/contextualized-topic-models](https://github.com/MilaNLProc/contextualized-topic-models)**，已 vendored 至仓库根 **`external_models/contextualized-topic-models/`**（更新方式见 **`external_models/README.md`**）。
+
+**最低实验建议**：在 **2–4 个数据集**（如 20NG、NYT、ACL、NeurIPS）上跑通 CombinedTM，报告与主文一致的 **C_V、TD、TU**（本仓库评估脚本中 **TU** 对应 `hierarchical_topic_quality.py` 打印的 `TU`；CTM 导出单层 top words 后可用 **`--skip_hierarchy`** 只算 C_V/TD/TU）。
+
+**推荐流程**：
+
+1. **安装 CTM 包**（在仓库根或 venv 内）  
+   `pip install -e external_models/contextualized-topic-models`  
+   并安装 **`sentence-transformers`**、**`torch`**（版本按官方 README 与 CUDA 自选）。
+
+2. **准备 BoW + 原文**（与 EAHTM `data/<数据集>` 对齐）  
+   在 **`EAHTM/EAHTM`** 下：  
+   `python -m experiments.ctm_baseline -d 20NG --data_dir ./data`  
+   会在 `output/<数据集>/CTM_prep_*` 写出 BoW 的 csr 分量与 `train_texts_copy.txt` 等，供 CombinedTM 官方 notebook / 脚本读取。
+
+3. **训练与导出主题词**  
+   按上游仓库 README 使用 `CombinedTM`；将得到的 top words 存成与 EAHTM 相同行首格式（如 `L-0_K-0 w1 w2 ...`），再用 **`utils/eva/hierarchical_topic_quality.py`** 计算 C_V、TD、TU（必要时 **`--skip_hierarchy`**）。
+
+---
+
+## 8. 与仓库根目录的关系
 
 - 本文件路径：`Additional-experiments/EAHTM/README.md`  
 - **实际运行目录**：`Additional-experiments/EAHTM/EAHTM/`  
@@ -107,7 +129,7 @@ python -m experiments.run_suite --help
 
 ---
 
-## 8. 推送到 GitHub
+## 9. 推送到 GitHub
 
 在仓库根 **`Additional-experiments/`**（与 `.git` 同级）执行：
 

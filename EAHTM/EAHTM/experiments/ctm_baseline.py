@@ -16,7 +16,7 @@ downstream. Evaluate with::
         --dataset <ds> --data_dir ./data --skip_hierarchy --read_labels True
 
 Paper: https://aclanthology.org/2021.acl-short.96/
-Code: https://github.com/MilaNLProc/contextualized-topic-models
+Code: https://github.com/MilaNLProc/contextualized-topic-models（本仓库已 vendored：`Additional-experiments/external_models/contextualized-topic-models/`，安装见 `external_models/README.md`）
 
 Run: python -m experiments.ctm_baseline -d 20NG --data_dir ./data
 """
