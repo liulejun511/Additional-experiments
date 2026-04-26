@@ -1,3 +1,7 @@
+"""
+EAHTM 训练入口：读 configs + data，训练 HTM，写出主题词 / theta / phi / 可选训练统计与 OT 诊断。
+工作目录应为 EAHTM/EAHTM（与 utils、runners 同级）。详见上层 EAHTM/README.md。
+"""
 import os
 import numpy as np
 import argparse

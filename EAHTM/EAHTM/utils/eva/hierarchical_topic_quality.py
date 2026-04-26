@@ -1,3 +1,7 @@
+"""
+层次主题模型离线评估：C_V、TD、TU；若有 phi_list 则计算 CLNPMI（父子 NPMI）、PC_TD 等层次指标；
+可选 read_labels 时跑聚类/分类。扁平基线（无 phi_list）自动跳过层次块；可用 --skip_hierarchy 强制跳过。
+"""
 from gensim.corpora import Dictionary
 from gensim.models import CoherenceModel
 import argparse

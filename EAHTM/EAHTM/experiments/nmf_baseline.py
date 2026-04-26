@@ -1,7 +1,11 @@
 """
-TF-IDF + sklearn NMF flat baseline. Saves outputs compatible with hierarchical_topic_quality.py
-(no phi_list -> hierarchy metrics auto-skipped; C_V, TD, TU + optional downstream).
-Run from EAHTM root: python -m experiments.nmf_baseline -d 20NG --data_dir ./data
+论文非神经基线：TF-IDF（sublinear）+ sklearn NMF，单层 K 个主题。
+
+输出与 EAHTM 评估脚本对齐：output/<ds>/NMF_K<k>_<idx>th_{T,params.npz}；
+params 中无 phi_list，hierarchical_topic_quality 只报 C_V / TD / TU 及下游（若给标签）。
+
+运行目录：EAHTM/EAHTM。示例：
+  python -m experiments.nmf_baseline -d 20NG --data_dir ./data -k 200
 """
 import argparse
 import os

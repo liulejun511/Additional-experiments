@@ -1,3 +1,6 @@
+"""
+训练循环：按 epoch 优化 HTM；可选将 wall-clock、每轮耗时、峰值显存及 OT 统计写入 training_stats_path（JSON）。
+"""
 import json
 import os
 import time
